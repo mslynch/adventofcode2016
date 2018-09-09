@@ -2,7 +2,6 @@
 name = "adventofcode2016"
 version = "0.1.0"
 authors = ["Matthew Lynch <mslynch95@gmail.com>"]
-# doc = false
 
 [dependencies]
 clap = "2.32.0"

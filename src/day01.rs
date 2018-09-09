@@ -6,7 +6,7 @@ use std::iter;
 
 pub fn run(filename: Option<&str>) {
     println!("Day 1: No Time for a Taxicab");
-    let mut file = File::open(filename.unwrap_or("data/day1.txt")).expect("file not found");
+    let mut file = File::open(filename.unwrap_or("data/day01.txt")).expect("file not found");
     let mut contents = String::new();
     file.read_to_string(&mut contents)
         .expect("something went wrong reading the file");
@@ -23,7 +23,7 @@ enum Direction {
     West,
 }
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 struct Position {
     x: isize,
     y: isize,
@@ -122,8 +122,7 @@ pub fn blocks_away(input: &str) -> (isize, Option<isize>) {
         .map(|i| Instruction {
             relative_direction: i.chars().next().unwrap(),
             distance: i[1..].parse().unwrap(),
-        })
-        .scan(initial_state, |last_state, instruction| {
+        }).scan(initial_state, |last_state, instruction| {
             let after_walk = last_state.walk(&instruction);
             let positions = last_state.position.range_to(&after_walk.position);
 
@@ -155,4 +154,57 @@ pub fn blocks_away(input: &str) -> (isize, Option<isize>) {
     let revisited_distance = first_visited_position.and_then(|pos| Some(pos.absolute_blocks()));
 
     (ending_distance, revisited_distance)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn position_range_x_increasing() {
+        let start = Position { x: 0, y: 0 };
+        let end = Position { x: 3, y: 0 };
+        let expected = vec![
+            Position { x: 1, y: 0 },
+            Position { x: 2, y: 0 },
+            Position { x: 3, y: 0 },
+        ];
+        assert_eq!(expected, start.range_to(&end));
+    }
+
+    #[test]
+    fn position_range_x_decreasing() {
+        let start = Position { x: 0, y: 0 };
+        let end = Position { x: -3, y: 0 };
+        let expected = vec![
+            Position { x: -1, y: 0 },
+            Position { x: -2, y: 0 },
+            Position { x: -3, y: 0 },
+        ];
+        assert_eq!(expected, start.range_to(&end));
+    }
+
+    #[test]
+    fn position_range_y_increasing() {
+        let start = Position { x: 0, y: 0 };
+        let end = Position { x: 0, y: 3 };
+        let expected = vec![
+            Position { x: 0, y: 1 },
+            Position { x: 0, y: 2 },
+            Position { x: 0, y: 3 },
+        ];
+        assert_eq!(expected, start.range_to(&end));
+    }
+
+    #[test]
+    fn position_range_y_decreasing() {
+        let start = Position { x: 0, y: 0 };
+        let end = Position { x: 0, y: -3 };
+        let expected = vec![
+            Position { x: 0, y: -1 },
+            Position { x: 0, y: -2 },
+            Position { x: 0, y: -3 },
+        ];
+        assert_eq!(expected, start.range_to(&end));
+    }
 }
