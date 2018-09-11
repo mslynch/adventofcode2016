@@ -1,4 +1,5 @@
 pub mod day01;
+pub mod day02;
 
 #[macro_use]
 extern crate clap;
@@ -29,6 +30,7 @@ fn main() {
         .get_matches();
     match matches.value_of("day").unwrap() {
         "1" => day01::run(matches.value_of("file")),
+        "2" => day02::run(matches.value_of("file")),
         _ => println!("Enter a day between 1 and 25!"),
     }
 }
