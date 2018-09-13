@@ -1,9 +1,6 @@
-// use std::cmp::Ordering;
-// use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
-// use std::iter;
 
 pub const KEYPAD_NORMAL: &[char] = &[
     '1', '2', '3',

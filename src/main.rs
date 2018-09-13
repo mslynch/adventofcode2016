@@ -1,8 +1,12 @@
 pub mod day01;
 pub mod day02;
+pub mod day03;
 
 #[macro_use]
 extern crate clap;
+#[macro_use]
+extern crate maplit;
+
 use clap::{App, Arg};
 
 fn main() {
@@ -31,6 +35,7 @@ fn main() {
     match matches.value_of("day").unwrap() {
         "1" => day01::run(matches.value_of("file")),
         "2" => day02::run(matches.value_of("file")),
+        "3" => day03::run(matches.value_of("file")),
         _ => println!("Enter a day between 1 and 25!"),
     }
 }

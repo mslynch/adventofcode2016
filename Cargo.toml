@@ -5,6 +5,8 @@ authors = ["Matthew Lynch <mslynch95@gmail.com>"]
 
 [dependencies]
 clap = "2.32.0"
+itertools = "0.7.8"
+maplit = "1.0.1"
 
 [lib]
 name = "adventofcode2016"
