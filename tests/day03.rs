@@ -13,6 +13,6 @@ fn actual_triangle_count_test() {
 
     assert_eq!(
         3,
-        actual_triangle_count(input)
+        actual_triangle_count(&input)
     );
 }
