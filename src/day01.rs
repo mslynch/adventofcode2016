@@ -4,6 +4,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::iter;
 
+/// Runs the problems for day 1.
 pub fn run(filename: Option<&str>) {
     println!("Day 1: No Time for a Taxicab");
     let mut file = File::open(filename.unwrap_or("data/day01.txt")).expect("file not found");

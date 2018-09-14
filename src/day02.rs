@@ -15,6 +15,7 @@ pub const KEYPAD_DIAMOND: &[char] = &[
     ' ', ' ', 'D', ' ', ' ',
 ];
 
+/// Runs the problems for day 2.
 pub fn run(filename: Option<&str>) {
     println!("Day 2: Bathroom Security");
     let file = File::open(filename.unwrap_or("data/day02.txt")).expect("file not found");
@@ -39,6 +40,7 @@ pub struct Coord {
     pub col: usize,
 }
 
+/// Increments x if x < upper_bound, otherwise returns x.
 fn increment(x: usize, upper_bound: usize) -> usize {
     if x < upper_bound {
         x + 1
@@ -47,6 +49,7 @@ fn increment(x: usize, upper_bound: usize) -> usize {
     }
 }
 
+/// Increments x if x < upper_bound, otherwise returns x.
 fn decrement(x: usize) -> usize {
     if x > 0 {
         x - 1
@@ -56,6 +59,7 @@ fn decrement(x: usize) -> usize {
 }
 
 impl Coord {
+    /// The next coordinate after moving in the given direction using a normal keypad.
     pub fn next(&self, direction: char, size: usize) -> Coord {
         match direction {
             'R' => Coord {
@@ -77,6 +81,7 @@ impl Coord {
         }
     }
 
+    /// The next coordinate after moving in the given direction using a diamond keypad.
     pub fn next_diamond(&self, direction: char, size: usize) -> Coord {
         let tentative_coord = self.next(direction, size);
         let half_size = size as isize / 2;
@@ -90,6 +95,7 @@ impl Coord {
     }
 }
 
+/// Decodes the given instructions into the actual keycode.
 pub fn decode_instructions<F>(
     instructions: &[String],
     keypad: &[char],

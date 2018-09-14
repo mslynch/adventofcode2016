@@ -21,16 +21,18 @@ pub fn run(filename: Option<&str>) {
     println!("part 2: {}", actual_vertical_triangle_count(&input));
 }
 
+/// The number of actual triangles when input is read horizontally.
 pub fn actual_triangle_count(input: &Vec<String>) -> usize {
     input.iter().map(parse_lengths).filter(is_triangle).count()
 }
 
+/// The number of actual triangles when input is read vertically.
 pub fn actual_vertical_triangle_count(input: &Vec<String>) -> usize {
     read_vertical_triangles(&input).filter(is_triangle).count()
 }
 
+/// The number of vertical triangles
 fn read_vertical_triangles<'a>(input: &'a Vec<String>) -> impl Iterator<Item = Vec<usize>> + 'a {
-    //Vec<Vec<usize>> {
     input
         .iter()
         .map(parse_lengths)
@@ -41,9 +43,10 @@ fn read_vertical_triangles<'a>(input: &'a Vec<String>) -> impl Iterator<Item = V
                 vec![a[1], b[1], c[1]],
                 vec![a[2], b[2], c[2]],
             ]
-        }) //.collect()
+        })
 }
 
+/// Turns a string of three numbers into a Vec of usizes.
 fn parse_lengths(triangle: &String) -> Vec<usize> {
     triangle
         .split_whitespace()
@@ -51,6 +54,7 @@ fn parse_lengths(triangle: &String) -> Vec<usize> {
         .collect()
 }
 
+/// Whether three numbers form a triangle.
 fn is_triangle(numbers: &Vec<usize>) -> bool {
     numbers[0] + numbers[1] > numbers[2]
         && numbers[1] + numbers[2] > numbers[0]
