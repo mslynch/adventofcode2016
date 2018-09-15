@@ -1,5 +1,4 @@
 extern crate adventofcode2016;
-// extern crate 
 
 use adventofcode2016::day03::actual_triangle_count;
 
@@ -10,6 +9,20 @@ fn actual_triangle_count_test() {
         "3 3 3".to_string(),
         "3 4 4".to_string(),
         "5 10 25".to_string(),
+    ];
+
+    assert_eq!(
+        3,
+        actual_triangle_count(&input)
+    );
+}
+
+#[test]
+fn actual_vertical_triangle_count_test() {
+    let input = vec![
+        "3 3 3 5".to_string(),
+        "4 3 4 10".to_string(),
+        "5 3 4 25".to_string(),
     ];
 
     assert_eq!(
