@@ -1,14 +1,13 @@
 extern crate itertools;
-// #[macro_use]
-// extern crate maplit;
-
-// use self::maplit::hashset;
 
 use day03::itertools::Itertools;
-use std::collections::HashSet;
+
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
+
+#[cfg(test)]
+use std::collections::HashSet;
 
 pub fn run(filename: Option<&str>) {
     println!("Day 3: Squares With Three Sides");
@@ -22,20 +21,26 @@ pub fn run(filename: Option<&str>) {
 }
 
 /// The number of actual triangles when input is read horizontally.
-pub fn actual_triangle_count(input: &Vec<String>) -> usize {
-    input.iter().map(parse_lengths).filter(is_triangle).count()
+pub fn actual_triangle_count(input: &[String]) -> usize {
+    input
+        .iter()
+        .map(|input| parse_lengths(input))
+        .filter(|triangle| is_triangle(triangle))
+        .count()
 }
 
 /// The number of actual triangles when input is read vertically.
-pub fn actual_vertical_triangle_count(input: &Vec<String>) -> usize {
-    read_vertical_triangles(&input).filter(is_triangle).count()
+pub fn actual_vertical_triangle_count(input: &[String]) -> usize {
+    read_vertical_triangles(input)
+        .filter(|triangle| is_triangle(triangle))
+        .count()
 }
 
 /// The number of vertical triangles
-fn read_vertical_triangles<'a>(input: &'a Vec<String>) -> impl Iterator<Item = Vec<usize>> + 'a {
+fn read_vertical_triangles<'a>(input: &'a [String]) -> impl Iterator<Item = Vec<usize>> + 'a {
     input
         .iter()
-        .map(parse_lengths)
+        .map(|input| parse_lengths(input))
         .tuples()
         .flat_map(|(a, b, c)| {
             vec![
@@ -47,7 +52,7 @@ fn read_vertical_triangles<'a>(input: &'a Vec<String>) -> impl Iterator<Item = V
 }
 
 /// Turns a string of three numbers into a Vec of usizes.
-fn parse_lengths(triangle: &String) -> Vec<usize> {
+fn parse_lengths(triangle: &str) -> Vec<usize> {
     triangle
         .split_whitespace()
         .map(|s| s.parse::<usize>().unwrap())
@@ -55,7 +60,7 @@ fn parse_lengths(triangle: &String) -> Vec<usize> {
 }
 
 /// Whether three numbers form a triangle.
-fn is_triangle(numbers: &Vec<usize>) -> bool {
+fn is_triangle(numbers: &[usize]) -> bool {
     numbers[0] + numbers[1] > numbers[2]
         && numbers[1] + numbers[2] > numbers[0]
         && numbers[2] + numbers[0] > numbers[1]

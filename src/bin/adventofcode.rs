@@ -1,13 +1,9 @@
-pub mod day01;
-pub mod day02;
-pub mod day03;
-
+extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
-#[macro_use]
-extern crate maplit;
 
 use clap::{App, Arg};
+use adventofcode2016::{day01, day02, day03};
 
 fn main() {
     let matches = App::new("Advent of Code 2016")
