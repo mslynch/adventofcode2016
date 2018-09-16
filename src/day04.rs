@@ -16,7 +16,6 @@ pub fn run(filename: Option<&str>) {
     let input = reader.lines().map(Result::unwrap).collect::<Vec<String>>();
 
     println!("part 1: {}", real_room_id_sum(&input));
-    // find_north_pole_sector(&input);
     println!("part 2: {}", find_north_pole_sector(&input));
 }
 
@@ -43,6 +42,7 @@ impl Ord for CharCount {
     }
 }
 
+/// Finds the sum of the ids of real rooms.
 pub fn real_room_id_sum(input: &[String]) -> usize {
     input
         .iter()
@@ -52,6 +52,7 @@ pub fn real_room_id_sum(input: &[String]) -> usize {
         .sum()
 }
 
+/// Finds the id of the north pole object storage room.
 pub fn find_north_pole_sector(input: &[String]) -> usize {
     let (id, _decrypted) = input
         .iter()
@@ -64,6 +65,7 @@ pub fn find_north_pole_sector(input: &[String]) -> usize {
 }
 
 impl<'a> Room<'a> {
+    /// Whether a room is real or not.
     fn is_real(&self) -> bool {
         let mut chars_by_count = BTreeMap::new();
         for c in self.words.iter().flat_map(|s| s.chars()) {
@@ -82,6 +84,7 @@ impl<'a> Room<'a> {
             == self.checksum
     }
 
+    /// Decrypts a room into its real name.
     fn decrypt(&self) -> String {
         let shift = (self.id % 26) as u8;
         self.words
@@ -94,6 +97,7 @@ impl<'a> Room<'a> {
     }
 }
 
+/// Parses a string into a Room struct.
 fn parse_room(room: &str) -> Room {
     let size = room.len();
     let checksum = room[size - 6..size - 1].to_string();
@@ -107,6 +111,7 @@ fn parse_room(room: &str) -> Room {
     }
 }
 
+/// Shifts a character shift digits (Caesar cipher).
 fn shift_char(c: char, shift: u8) -> char {
     let shifted = c as u8 + shift;
     if shifted <= 122 {
