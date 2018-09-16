@@ -1,6 +1,4 @@
-extern crate itertools;
-
-use day03::itertools::Itertools;
+use itertools::Itertools;
 
 use std::fs::File;
 use std::io::prelude::*;
