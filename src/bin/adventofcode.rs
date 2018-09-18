@@ -2,7 +2,7 @@ extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
 
-use adventofcode2016::{day01, day02, day03, day04};
+use adventofcode2016::{day01, day02, day03, day04, day05};
 use clap::{App, Arg};
 
 fn main() {
@@ -31,6 +31,7 @@ fn main() {
         "2" => day02::run(matches.value_of("file")),
         "3" => day03::run(matches.value_of("file")),
         "4" => day04::run(matches.value_of("file")),
+        "5" => day05::run(matches.value_of("file")),
         _ => println!("Enter a day between 1 and 25!"),
     }
 }
