@@ -2,7 +2,7 @@ extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
 
-use adventofcode2016::{day01, day02, day03, day04, day05};
+use adventofcode2016::{day01, day02, day03, day04, day05, day06};
 use clap::{App, Arg};
 
 fn main() {
@@ -32,6 +32,26 @@ fn main() {
         "3" => day03::run(matches.value_of("file")),
         "4" => day04::run(matches.value_of("file")),
         "5" => day05::run(matches.value_of("file")),
+        "6" => day06::run(matches.value_of("file")),
+        // "7" => day06::run(matches.value_of("file")),
+        // "8" => day06::run(matches.value_of("file")),
+        // "9" => day06::run(matches.value_of("file")),
+        // "10" => day06::run(matches.value_of("file")),
+        // "11" => day06::run(matches.value_of("file")),
+        // "12" => day06::run(matches.value_of("file")),
+        // "13" => day06::run(matches.value_of("file")),
+        // "14" => day06::run(matches.value_of("file")),
+        // "15" => day06::run(matches.value_of("file")),
+        // "16" => day06::run(matches.value_of("file")),
+        // "17" => day06::run(matches.value_of("file")),
+        // "18" => day06::run(matches.value_of("file")),
+        // "19" => day06::run(matches.value_of("file")),
+        // "20" => day06::run(matches.value_of("file")),
+        // "21" => day06::run(matches.value_of("file")),
+        // "22" => day06::run(matches.value_of("file")),
+        // "23" => day06::run(matches.value_of("file")),
+        // "24" => day06::run(matches.value_of("file")),
+        // "25" => day06::run(matches.value_of("file")),
         _ => println!("Enter a day between 1 and 25!"),
     }
 }
