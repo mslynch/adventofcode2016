@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use std::str;
 
-/// Runs the solution for day 6.
+/// Runs the solution for day 7.
 pub fn run(filename: Option<&str>) {
     println!("Day 7: Internet Protocol Version 7");
     let file = File::open(filename.unwrap_or("data/day07.txt")).expect("file not found");
@@ -21,6 +21,7 @@ pub fn run(filename: Option<&str>) {
     );
 }
 
+/// Returns the number of IP addresses that support the given spy protocol.
 pub fn spy_support_count<F>(input: &[String], spy_support_predicate: F) -> usize
 where
     F: Fn(&IPAddress) -> bool,
@@ -53,6 +54,7 @@ impl IPAddress {
     }
 }
 
+/// Transforms a &str 'bab' into 'aba'.
 fn invert_bab(bab: &str) -> String {
     let mut ret = String::new();
     let mut bab_chars = bab.chars();
@@ -64,6 +66,7 @@ fn invert_bab(bab: &str) -> String {
     ret
 }
 
+/// Turns a &str into an IPAddress.
 pub fn parse_address(string: &str) -> IPAddress {
     let mut sequences = vec!["".to_string()];
     let mut hypernet_sequences = Vec::new();
