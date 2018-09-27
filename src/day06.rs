@@ -7,7 +7,7 @@ use std::io::BufReader;
 
 /// Runs the solution for day 6.
 pub fn run(filename: Option<&str>) {
-    println!("Day 4: Security Through Obscurity");
+    println!("Day 6: Signals and Noise");
     let file = File::open(filename.unwrap_or("data/day06.txt")).expect("file not found");
     let reader = BufReader::new(file);
 
