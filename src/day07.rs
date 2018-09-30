@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use std::str;
 
-/// Runs the solution for day 7.
+/// Runs the solutions for day 7.
 pub fn run(filename: Option<&str>) {
     println!("Day 7: Internet Protocol Version 7");
     let file = File::open(filename.unwrap_or("data/day07.txt")).expect("file not found");
