@@ -2,7 +2,7 @@ extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
 
-use adventofcode2016::{day01, day02, day03, day04, day05, day06, day07, day08};
+use adventofcode2016::{day01, day02, day03, day04, day05, day06, day07, day08, day09};
 use clap::{App, Arg};
 
 fn main() {
@@ -35,23 +35,23 @@ fn main() {
         "6" => day06::run(matches.value_of("file")),
         "7" => day07::run(matches.value_of("file")),
         "8" => day08::run(matches.value_of("file")),
-        // "9" => day06::run(matches.value_of("file")),
-        // "10" => day06::run(matches.value_of("file")),
-        // "11" => day06::run(matches.value_of("file")),
-        // "12" => day06::run(matches.value_of("file")),
-        // "13" => day06::run(matches.value_of("file")),
-        // "14" => day06::run(matches.value_of("file")),
-        // "15" => day06::run(matches.value_of("file")),
-        // "16" => day06::run(matches.value_of("file")),
-        // "17" => day06::run(matches.value_of("file")),
-        // "18" => day06::run(matches.value_of("file")),
-        // "19" => day06::run(matches.value_of("file")),
-        // "20" => day06::run(matches.value_of("file")),
-        // "21" => day06::run(matches.value_of("file")),
-        // "22" => day06::run(matches.value_of("file")),
-        // "23" => day06::run(matches.value_of("file")),
-        // "24" => day06::run(matches.value_of("file")),
-        // "25" => day06::run(matches.value_of("file")),
+        "9" => day09::run(matches.value_of("file")),
+        // "10" => day10::run(matches.value_of("file")),
+        // "11" => day11::run(matches.value_of("file")),
+        // "12" => day12::run(matches.value_of("file")),
+        // "13" => day13::run(matches.value_of("file")),
+        // "14" => day14::run(matches.value_of("file")),
+        // "15" => day15::run(matches.value_of("file")),
+        // "16" => day16::run(matches.value_of("file")),
+        // "17" => day17::run(matches.value_of("file")),
+        // "18" => day18::run(matches.value_of("file")),
+        // "19" => day19::run(matches.value_of("file")),
+        // "20" => day20::run(matches.value_of("file")),
+        // "21" => day21::run(matches.value_of("file")),
+        // "22" => day22::run(matches.value_of("file")),
+        // "23" => day23::run(matches.value_of("file")),
+        // "24" => day24::run(matches.value_of("file")),
+        // "25" => day25::run(matches.value_of("file")),
         _ => println!("Enter a day between 1 and 25!"),
     }
 }
