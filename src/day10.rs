@@ -11,9 +11,9 @@ pub fn run(filename: Option<&str>) {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
-
+    let (instructions, mut initial_state) = parse_input(&input);
     // let (lit, screen) = run_instructions(&input);
-    // println!("part 1: {}", lit);
+    println!("part 1: {}", run_bots(&instructions, &mut initial_state));
     // println!("part 2: ");
     // display(&screen);
 }
@@ -28,10 +28,12 @@ struct Bot {
     output_type: OutputType,
 }
 
-fn parse_input(input: &[String]) -> HashMap<usize, (Bot, Bot)> {
-    let mut bots: HashMap::new();
-    // let mut bot_values: HashMap::new();
-    for split in input.iter().map(|line| line.split(' ')) {
+/// Returns a tuple of the bot instructions and the initial state.
+fn parse_input(input: &[String]) -> (HashMap<usize, (Bot, Bot)>, HashMap<usize, Vec<usize>>) {
+    let mut bots = HashMap::new();
+    let mut values = HashMap::new();
+    for line in input.iter() {
+        let mut split = line.split(' ');
         match split.next().unwrap() {
             "bot" => {
                 let id = split.next().unwrap().parse::<usize>().unwrap();
@@ -67,14 +69,49 @@ fn parse_input(input: &[String]) -> HashMap<usize, (Bot, Bot)> {
                     ),
                 );
             }
-            _ => {
-                
+            _value => {
+                let value = split.next().unwrap().parse::<usize>().unwrap();
+                // consume "goes to bot"
+                for _ in 0..3 {
+                    split.next();
+                }
+                let bot = split.next().unwrap().parse::<usize>().unwrap();
+                values.insert(bot, vec![value]);
             }
         }
     }
-
-    3
+    (bots, values)
 }
+
+struct BotState {
+
+}
+
+fn run_bots(
+    bot_instructions: &HashMap<usize, (Bot, Bot)>,
+    bot_state: &mut HashMap<usize, Vec<usize>>,
+) -> usize {
+    // let current
+    let mut bot_comparing_61_17 = None;
+    loop {
+
+        // bot_state.retain(|&bot_id, ref mut values| {
+        //     if values.len() > 1 {
+        //         let low = values[0];
+        //         let high = values[1];
+        //         if low == 17 && high == 61 {
+        //             bot_comparing_61_17 = Some(bot_id);
+        //         }
+        //         true
+        //     } else {
+        //         false
+        //     }
+        // });
+        // if bot_state.iter()
+    }
+    bot_comparing_61_17.unwrap();
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -82,19 +119,7 @@ mod tests {
 
     #[test]
     fn rotate_row_test_2() {
-        // let mut screen = [
-        //     '.', '.', '.', '.', '#', '.', '#', '#', '#', '#', '.', '.', '.', '.', '.', '#', '.',
-        //     '.', '.', '.', '.',
-        // ];
-        // run_instruction(
-        //     &mut screen,
-        //     &Dimensions { x: 7, y: 3 },
-        //     "rotate column x=1 by 1",
-        // );
-        // let expected = [
-        //     '.', '#', '.', '.', '#', '.', '#', '#', '.', '#', '.', '.', '.', '.', '.', '#', '.',
-        //     '.', '.', '.', '.',
-        // ];
+
         // assert_eq!(expected, screen);
     }
 
