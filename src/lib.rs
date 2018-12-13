@@ -2,6 +2,7 @@
 #[macro_use]
 extern crate maplit;
 extern crate itertools;
+extern crate im;
 extern crate crypto;
 
 pub mod day01;
