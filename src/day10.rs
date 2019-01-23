@@ -38,8 +38,6 @@ pub struct State {
     pub bins: HashMap<usize, usize>,
 }
 
-// type Instructions = HashMap<usize, Vec<Bot>>;
-
 /// Returns a tuple of the bot instructions and the initial state.
 fn parse_input(input: &[String]) -> (HashMap<usize, Vec<Bot>>, State) {
     let (instructions, state_bots) = input.iter().fold((HashMap::new(), HashMap::new()), |(bots, values), line| {
