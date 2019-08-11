@@ -35,7 +35,7 @@ pub fn run(filename: Option<&str>) {
         floor: 0,
         building: building_with_extras,
     };
-    // should be 55
+    
     let steps2 = state2.min_steps();
     println!("part 2: {}", steps2);
 }
@@ -203,10 +203,6 @@ impl BuildingState {
         let one_chip_up_states = self.get_chip_up_states(&chip_pairs_on_current_floor);
         let one_rtg_down_states = self.get_rtg_down_states(&rtg_pairs_on_current_floor);
         let one_rtg_up_states = self.get_rtg_up_states(&rtg_pairs_on_current_floor);
-        // println!("one_chip_down_states: {:?}", one_chip_down_states);
-        // println!("one_chip_up_states: {:?}", one_chip_up_states);
-        // println!("one_rtg_down_states: {:?}", one_rtg_down_states);
-        // println!("one_rtg_down_states: {:?}", one_rtg_down_states);
 
         let second_item_moved_states: Vec<BuildingState> = one_chip_down_states
             .iter()
@@ -339,9 +335,6 @@ fn min_steps(
     visited_states: &HashSet<BuildingState>,
     steps_so_far: isize,
 ) -> isize {
-    // println!();
-    // println!("steps_so_far: {}", steps_so_far);
-
     let new_states: HashSet<BuildingState> = working_states
         .iter()
         .flat_map(|current_state| {
@@ -351,9 +344,6 @@ fn min_steps(
                 .filter(|state| !visited_states.contains(&state) && state.is_valid())
         })
         .collect();
-
-    // println!("new_states len: {}", new_states.len());
-    // println!("new_states: {:#?}", new_states);
 
     if new_states.iter().any(|state| state.building.is_finished()) {
         return steps_so_far + 1;
@@ -366,9 +356,6 @@ fn min_steps(
     let new_visited_states: HashSet<BuildingState> =
         visited_states.union(&new_states).cloned().collect();
 
-    // println!("new_visited_states len: {}", new_visited_states.len());
-
-    //TODO: remove clone
     min_steps(&new_states, &new_visited_states.clone(), steps_so_far + 1)
 }
 
