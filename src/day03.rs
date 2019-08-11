@@ -102,7 +102,7 @@ mod tests {
             "202 402 602".to_string(),
             "203 403 603".to_string(),
         ];
-        let vertical_parse_expectation = hashset!{
+        let vertical_parse_expectation = hashset! {
             vec![101, 102, 103],
             vec![201, 202, 203],
             vec![301, 302, 303],

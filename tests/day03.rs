@@ -11,10 +11,7 @@ fn actual_triangle_count_test() {
         "5 10 25".to_string(),
     ];
 
-    assert_eq!(
-        3,
-        actual_triangle_count(&input)
-    );
+    assert_eq!(3, actual_triangle_count(&input));
 }
 
 #[test]
@@ -25,8 +22,5 @@ fn actual_vertical_triangle_count_test() {
         "5 3 4 25".to_string(),
     ];
 
-    assert_eq!(
-        3,
-        actual_triangle_count(&input)
-    );
+    assert_eq!(3, actual_triangle_count(&input));
 }

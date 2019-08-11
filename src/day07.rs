@@ -82,7 +82,7 @@ pub fn parse_address(string: &str) -> IPAddress {
                 sequences.push("".to_string());
             }
             _ => {
-                let mut working_sequence = if in_hypernet {
+                let working_sequence = if in_hypernet {
                     &mut hypernet_sequences
                 } else {
                     &mut sequences
@@ -157,7 +157,10 @@ mod tests {
 
     #[test]
     fn bab_strings_test() {
-        assert_eq!(vec!["bab", "fgf"], bab_strings("babfgf").collect::<Vec<&str>>())
+        assert_eq!(
+            vec!["bab", "fgf"],
+            bab_strings("babfgf").collect::<Vec<&str>>()
+        )
     }
 
 }

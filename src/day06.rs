@@ -35,15 +35,25 @@ where
     char_counts
         .iter()
         .map(|column_counts| {
-            column_counts.iter().max_by(&comparator).map(|(character, _count)| character)
-            .unwrap()
-        }).collect()
+            column_counts
+                .iter()
+                .max_by(&comparator)
+                .map(|(character, _count)| character)
+                .unwrap()
+        })
+        .collect()
 }
 
-pub fn max_count_comparator((_, count_a): &(&char, &usize), (_, count_b): &(&char, &usize)) -> Ordering {
+pub fn max_count_comparator(
+    (_, count_a): &(&char, &usize),
+    (_, count_b): &(&char, &usize),
+) -> Ordering {
     count_a.cmp(count_b)
 }
 
-pub fn min_count_comparator((_, count_a): &(&char, &usize), (_, count_b): &(&char, &usize)) -> Ordering {
+pub fn min_count_comparator(
+    (_, count_a): &(&char, &usize),
+    (_, count_b): &(&char, &usize),
+) -> Ordering {
     count_b.cmp(count_a)
 }

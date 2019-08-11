@@ -123,7 +123,8 @@ pub fn blocks_away(input: &str) -> (isize, Option<isize>) {
         .map(|i| Instruction {
             relative_direction: i.chars().next().unwrap(),
             distance: i[1..].parse().unwrap(),
-        }).scan(initial_state, |last_state, instruction| {
+        })
+        .scan(initial_state, |last_state, instruction| {
             let after_walk = last_state.walk(&instruction);
             let positions = last_state.position.range_to(&after_walk.position);
 

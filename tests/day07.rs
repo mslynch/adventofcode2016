@@ -1,6 +1,6 @@
 extern crate adventofcode2016;
 
-use adventofcode2016::day07::{spy_support_count, parse_address, IPAddress};
+use adventofcode2016::day07::{parse_address, spy_support_count, IPAddress};
 
 fn input_1() -> Vec<String> {
     vec![
@@ -25,7 +25,6 @@ fn spy_support_count_test() {
     assert_eq!(2, spy_support_count(&input_1(), IPAddress::supports_tls));
 }
 
-
 #[test]
 fn tls_test_1() {
     assert!(parse_address(&input_1()[0]).supports_tls());
@@ -36,18 +35,15 @@ fn tls_test_2() {
     assert!(!parse_address(&input_1()[1]).supports_tls());
 }
 
-
 #[test]
 fn tls_test_3() {
     assert!(!parse_address(&input_1()[2]).supports_tls());
 }
 
-
 #[test]
 fn tls_test_4() {
     assert!(parse_address(&input_1()[3]).supports_tls());
 }
-
 
 #[test]
 fn ssl_test_1() {

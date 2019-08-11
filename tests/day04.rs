@@ -11,9 +11,5 @@ fn actual_triangle_count_test() {
         "totally-real-room-200[decoy]".to_string(),
     ];
 
-    assert_eq!(
-        123 + 987 + 404,
-        real_room_id_sum(&input)
-    );
+    assert_eq!(123 + 987 + 404, real_room_id_sum(&input));
 }
-

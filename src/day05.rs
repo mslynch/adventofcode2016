@@ -52,13 +52,13 @@ pub fn generate_password_2(input: &str) -> String {
     'outer: for i in 0.. {
         if let Some((position_char, character)) = interesting_hash_digit(i, input) {
             let position = position_char.to_digit(16).unwrap() as usize;
-                if position < 8 && password[position] == None {
-                    password[position] = Some(character);
-                    digits_calculated += 1;
-                }
-                if digits_calculated == 8 {
-                    break 'outer;
-                }
+            if position < 8 && password[position] == None {
+                password[position] = Some(character);
+                digits_calculated += 1;
+            }
+            if digits_calculated == 8 {
+                break 'outer;
+            }
         }
     }
     password_to_string(password)

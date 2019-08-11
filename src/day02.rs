@@ -114,6 +114,7 @@ where
             });
             *coord = new_coord.clone();
             Some(new_coord)
-        }).map(|coord| keypad[size * coord.row + coord.col].to_string())
+        })
+        .map(|coord| keypad[size * coord.row + coord.col].to_string())
         .collect()
 }

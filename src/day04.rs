@@ -93,7 +93,8 @@ impl<'a> Room<'a> {
                 word.chars()
                     .map(|c| shift_char(c, shift))
                     .collect::<String>()
-            }).join(" ")
+            })
+            .join(" ")
     }
 }
 

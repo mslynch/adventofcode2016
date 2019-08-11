@@ -2,7 +2,9 @@ extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
 
-use adventofcode2016::{day01, day02, day03, day04, day05, day06, day07, day08, day09, day10, day11};
+use adventofcode2016::{
+    day01, day02, day03, day04, day05, day06, day07, day08, day09, day10, day11,
+};
 use clap::{App, Arg};
 
 fn main() {
@@ -18,14 +20,16 @@ fn main() {
                 .help("The day to run solutions for")
                 .takes_value(true)
                 .required(true),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("file")
                 .short("f")
                 .long("file")
                 .value_name("FILENAME")
                 .help("The input file to run the solution on")
                 .takes_value(true),
-        ).get_matches();
+        )
+        .get_matches();
     match matches.value_of("day").unwrap() {
         "1" => day01::run(matches.value_of("file")),
         "2" => day02::run(matches.value_of("file")),
