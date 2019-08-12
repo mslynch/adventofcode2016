@@ -2,11 +2,14 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
+#[rustfmt::skip]
 pub const KEYPAD_NORMAL: &[char] = &[
     '1', '2', '3',
     '4', '5', '6',
     '7', '8', '9'
 ];
+
+#[rustfmt::skip]
 pub const KEYPAD_DIAMOND: &[char] = &[
     ' ', ' ', '1', ' ', ' ',
     ' ', '2', '3', '4', ' ',
