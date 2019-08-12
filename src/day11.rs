@@ -128,7 +128,6 @@ impl BuildingState {
     }
 
     fn get_chip_down_states(&self, chip_pairs_on_current_floor: &[ElementPair]) -> Vec<Self> {
-        // println!("down: chip pairs on current floor: {:?}", chip_pairs_on_current_floor);
         chip_pairs_on_current_floor
             .iter()
             .map(|pair| {
@@ -145,7 +144,6 @@ impl BuildingState {
     }
 
     fn get_chip_up_states(&self, chip_pairs_on_current_floor: &[ElementPair]) -> Vec<Self> {
-        // println!("up: chip pairs on current floor: {:?}", chip_pairs_on_current_floor);
         chip_pairs_on_current_floor
             .iter()
             .map(|pair| {
@@ -549,180 +547,6 @@ mod tests {
                 1,
             );
         assert!(!building.is_finished(), "building is unfinished");
-    }
-
-    // #[test]
-    fn possible_moves_test() {
-        let mut input_building = HashMap::new();
-        input_building.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 1,
-            },
-            2,
-        );
-
-        // move 1 chip down
-        let mut expected_building_1 = HashMap::new();
-        expected_building_1.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        expected_building_1.insert(
-            ElementPair {
-                chip_floor: 0,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        let expected_floor_1 = 0;
-
-        // move 1 chip up
-        let mut expected_building_2 = HashMap::new();
-        expected_building_2.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        expected_building_2.insert(
-            ElementPair {
-                chip_floor: 2,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        let expected_floor_2 = 2;
-
-        // move 2 chips down
-        let mut expected_building_3 = HashMap::new();
-        expected_building_3.insert(
-            ElementPair {
-                chip_floor: 0,
-                rtg_floor: 1,
-            },
-            2,
-        );
-        let expected_floor_3 = 0;
-
-        // move 2 chips up
-        let mut expected_building_4 = HashMap::new();
-        expected_building_4.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 2,
-            },
-            2,
-        );
-        let expected_floor_4 = 2;
-
-        // move 1 rtg down
-        let mut expected_building_5 = HashMap::new();
-        expected_building_5.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        expected_building_5.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 0,
-            },
-            1,
-        );
-        let expected_floor_5 = 0;
-
-        // move 1 rtg up
-        let mut expected_building_6 = HashMap::new();
-        expected_building_6.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 1,
-            },
-            1,
-        );
-        expected_building_6.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 2,
-            },
-            1,
-        );
-        let expected_floor_6 = 2;
-
-        // move 2 rtgs down
-        let mut expected_building_7 = HashMap::new();
-        expected_building_7.insert(
-            ElementPair {
-                chip_floor: 1,
-                rtg_floor: 0,
-            },
-            2,
-        );
-        let expected_floor_7 = 0;
-
-        // move 2 chips up
-        let mut expected_building_8 = HashMap::new();
-        expected_building_8.insert(
-            ElementPair {
-                chip_floor: 2,
-                rtg_floor: 1,
-            },
-            2,
-        );
-        let expected_floor_8 = 2;
-
-        let expected_states: HashSet<BuildingState> = vec![
-            BuildingState {
-                floor: expected_floor_1,
-                building: expected_building_1,
-            },
-            BuildingState {
-                floor: expected_floor_2,
-                building: expected_building_2,
-            },
-            BuildingState {
-                floor: expected_floor_3,
-                building: expected_building_3,
-            },
-            BuildingState {
-                floor: expected_floor_4,
-                building: expected_building_4,
-            },
-            BuildingState {
-                floor: expected_floor_5,
-                building: expected_building_5,
-            },
-            BuildingState {
-                floor: expected_floor_6,
-                building: expected_building_6,
-            },
-            BuildingState {
-                floor: expected_floor_7,
-                building: expected_building_7,
-            },
-            BuildingState {
-                floor: expected_floor_8,
-                building: expected_building_8,
-            },
-        ]
-        .into_iter()
-        .collect();
-
-        let input_state = BuildingState {
-            floor: 1,
-            building: input_building,
-        };
-
-        let output_states = input_state.get_possible_moves();
-
-        assert_eq!(expected_states, output_states);
     }
 
     #[test]
