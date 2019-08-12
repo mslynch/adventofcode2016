@@ -35,7 +35,7 @@ pub fn run(filename: Option<&str>) {
         floor: 0,
         building: building_with_extras,
     };
-    
+
     let steps2 = state2.min_steps();
     println!("part 2: {}", steps2);
 }
