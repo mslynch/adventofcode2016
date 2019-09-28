@@ -14,10 +14,7 @@ pub fn run(filename: Option<&str>) {
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
 
     let building = parse_input(&input);
-    let state1 = BuildingState {
-        floor: 0,
-        building: building,
-    };
+    let state1 = BuildingState { floor: 0, building };
 
     let steps1 = state1.min_steps();
     println!("part 1: {}", steps1);
@@ -692,5 +689,4 @@ mod tests {
         let states = state.get_chip_down_states(&chip_pairs_on_current_floor);
         assert_eq!(expected_states, states);
     }
-
 }

@@ -115,5 +115,4 @@ mod tests {
             read_vertical_triangles(&triangles).collect::<HashSet<Vec<usize>>>()
         );
     }
-
 }

@@ -162,5 +162,4 @@ mod tests {
             bab_strings("babfgf").collect::<Vec<&str>>()
         )
     }
-
 }

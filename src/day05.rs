@@ -74,5 +74,4 @@ mod tests {
         assert_eq!('1', first);
         assert_eq!('5', second);
     }
-
 }

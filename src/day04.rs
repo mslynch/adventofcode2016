@@ -166,5 +166,4 @@ mod tests {
         };
         assert_eq!("very encrypted name", room.decrypt());
     }
-
 }
