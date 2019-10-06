@@ -4,16 +4,22 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::iter;
 
+use solution::Solution;
+
 /// Runs the problems for day 1.
-pub fn run(filename: Option<&str>) {
-    println!("Day 1: No Time for a Taxicab");
-    let mut file = File::open(filename.unwrap_or("data/day01.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let mut contents = String::new();
     file.read_to_string(&mut contents)
         .expect("something went wrong reading the file");
     let (ending_distance, revisited_distance) = blocks_away(&contents);
-    println!("part 1: {}", ending_distance);
-    println!("part 2: {}", revisited_distance.unwrap());
+
+    Solution {
+        title: "No Time for a Taxicab".to_string(),
+        part1: ending_distance.to_string(),
+        part2: revisited_distance
+            .map(|x| x.to_string())
+            .unwrap_or_else(|| "none".to_string()),
+    }
 }
 
 #[derive(Clone)]
@@ -112,7 +118,7 @@ impl Position {
 }
 
 /// Returns a tuple of the ending distance and the first revisited distance.
-pub fn blocks_away(input: &str) -> (isize, Option<isize>) {
+fn blocks_away(input: &str) -> (isize, Option<isize>) {
     let initial_state = WalkState {
         position: Position { x: 0, y: 0 },
         direction: Direction::North,

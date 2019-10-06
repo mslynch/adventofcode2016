@@ -5,16 +5,19 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
+use solution::Solution;
+
 /// Runs the solution for day 6.
-pub fn run(filename: Option<&str>) {
-    println!("Day 6: Signals and Noise");
-    let file = File::open(filename.unwrap_or("data/day06.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
 
-    println!("part 1: {}", error_correct(&input, &max_count_comparator));
-    println!("part 2: {}", error_correct(&input, &min_count_comparator));
+    Solution {
+        title: "Signals and Noise".to_string(),
+        part1: error_correct(&input, &max_count_comparator),
+        part2: error_correct(&input, &min_count_comparator),
+    }
 }
 
 /// Returns the error-corrected version for a list of received messages.

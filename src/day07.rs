@@ -1,28 +1,24 @@
+use solution::Solution;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::str;
 
 /// Runs the solutions for day 7.
-pub fn run(filename: Option<&str>) {
-    println!("Day 7: Internet Protocol Version 7");
-    let file = File::open(filename.unwrap_or("data/day07.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
 
-    println!(
-        "part 1: {}",
-        spy_support_count(&input, IPAddress::supports_tls)
-    );
-    println!(
-        "part 2: {}",
-        spy_support_count(&input, IPAddress::supports_ssl)
-    );
+    Solution {
+        title: "Internet Protocol Version 7".to_string(),
+        part1: spy_support_count(&input, IPAddress::supports_tls).to_string(),
+        part2: spy_support_count(&input, IPAddress::supports_ssl).to_string(),
+    }
 }
 
 /// Returns the number of IP addresses that support the given spy protocol.
-pub fn spy_support_count<F>(input: &[String], spy_support_predicate: F) -> usize
+fn spy_support_count<F>(input: &[String], spy_support_predicate: F) -> usize
 where
     F: Fn(&IPAddress) -> bool,
 {
@@ -34,18 +30,18 @@ where
 }
 
 #[derive(PartialEq, Debug)]
-pub struct IPAddress {
+struct IPAddress {
     sequences: Vec<String>,
     hypernet_sequences: Vec<String>,
 }
 
 impl IPAddress {
-    pub fn supports_tls(&self) -> bool {
+    fn supports_tls(&self) -> bool {
         self.sequences.iter().any(|s| contains_abba(s))
             && self.hypernet_sequences.iter().all(|s| !contains_abba(s))
     }
 
-    pub fn supports_ssl(&self) -> bool {
+    fn supports_ssl(&self) -> bool {
         self.sequences
             .iter()
             .flat_map(|s| bab_strings(s))
@@ -67,7 +63,7 @@ fn invert_bab(bab: &str) -> String {
 }
 
 /// Turns a &str into an IPAddress.
-pub fn parse_address(string: &str) -> IPAddress {
+fn parse_address(string: &str) -> IPAddress {
     let mut sequences = vec!["".to_string()];
     let mut hypernet_sequences = Vec::new();
     let mut in_hypernet = false;
@@ -161,5 +157,45 @@ mod tests {
             vec!["bab", "fgf"],
             bab_strings("babfgf").collect::<Vec<&str>>()
         )
+    }
+
+    #[test]
+    fn tls_test_1() {
+        assert!(parse_address("abba[mnop]qrst").supports_tls());
+    }
+
+    #[test]
+    fn tls_test_2() {
+        assert!(!parse_address("abcd[bddb]xyyx").supports_tls());
+    }
+
+    #[test]
+    fn tls_test_3() {
+        assert!(!parse_address("aaaa[qwer]tyui").supports_tls());
+    }
+
+    #[test]
+    fn tls_test_4() {
+        assert!(parse_address("ioxxoj[asdfgh]zxcvbn").supports_tls());
+    }
+
+    #[test]
+    fn ssl_test_1() {
+        assert!(parse_address("aba[bab]xyz").supports_ssl());
+    }
+
+    #[test]
+    fn ssl_test_2() {
+        assert!(!parse_address("xyx[xyx]xyx").supports_ssl());
+    }
+
+    #[test]
+    fn ssl_test_3() {
+        assert!(parse_address("aaa[kek]eke").supports_ssl());
+    }
+
+    #[test]
+    fn ssl_test_4() {
+        assert!(parse_address("zazbz[bzb]cdb").supports_ssl());
     }
 }

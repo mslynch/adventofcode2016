@@ -1,38 +1,22 @@
 extern crate adventofcode2016;
 
-use adventofcode2016::day02::{decode_instructions, Coord, KEYPAD_DIAMOND, KEYPAD_NORMAL};
+use std::fs::File;
+
+use adventofcode2016::day02::run;
 
 #[test]
-fn normal_decode_test() {
-    let input = [
-        "ULL".to_string(),
-        "RRDDD".to_string(),
-        "LURDL".to_string(),
-        "UUUUD".to_string(),
-    ];
-
-    assert_eq!(
-        "1985",
-        decode_instructions(&input, KEYPAD_NORMAL, Coord { row: 1, col: 1 }, Coord::next)
-    );
+fn decode_test() {
+    let mut file = File::open("data/day02/test.dat").expect("File not found!");
+    let result = run(&mut file).part1;
+    assert_eq!("1985", result, "bathroom code is decoded");
 }
 
 #[test]
 fn diamond_decode_test() {
-    let input = [
-        "ULL".to_string(),
-        "RRDDD".to_string(),
-        "LURDL".to_string(),
-        "UUUUD".to_string(),
-    ];
-
+    let mut file = File::open("data/day02/test.dat").expect("File not found!");
+    let result = run(&mut file).part2;
     assert_eq!(
-        "5DB3",
-        decode_instructions(
-            &input,
-            KEYPAD_DIAMOND,
-            Coord { row: 2, col: 0 },
-            Coord::next_diamond
-        )
+        "5DB3", result,
+        "bathroom code is decoded with a diamond keypad"
     );
 }

@@ -1,15 +1,20 @@
 extern crate adventofcode2016;
 
-use adventofcode2016::day04::real_room_id_sum;
+use std::fs::File;
+
+use adventofcode2016::day04::run;
 
 #[test]
-fn actual_triangle_count_test() {
-    let input = vec![
-        "aaaaa-bbb-z-y-x-123[abxyz]".to_string(),
-        "a-b-c-d-e-f-g-h-987[abcde]".to_string(),
-        "not-a-real-room-404[oarel]".to_string(),
-        "totally-real-room-200[decoy]".to_string(),
-    ];
+fn real_rooms_test() {
+    let mut file = File::open("data/day04/test-real-rooms.dat").expect("File not found!");
+    let result = run(&mut file).part1;
+    let expected = (123 + 987 + 404).to_string();
+    assert_eq!(expected, result, "real sector ids are summed");
+}
 
-    assert_eq!(123 + 987 + 404, real_room_id_sum(&input));
+#[test]
+fn northpole_test() {
+    let mut file = File::open("data/day04/test-northpole.dat").expect("File not found!");
+    let result = run(&mut file).part2;
+    assert_eq!("53", result, "north pole's sector id is found");
 }

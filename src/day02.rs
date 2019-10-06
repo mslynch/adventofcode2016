@@ -2,15 +2,17 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
+use solution::Solution;
+
 #[rustfmt::skip]
-pub const KEYPAD_NORMAL: &[char] = &[
+const KEYPAD_NORMAL: &[char] = &[
     '1', '2', '3',
     '4', '5', '6',
     '7', '8', '9'
 ];
 
 #[rustfmt::skip]
-pub const KEYPAD_DIAMOND: &[char] = &[
+const KEYPAD_DIAMOND: &[char] = &[
     ' ', ' ', '1', ' ', ' ',
     ' ', '2', '3', '4', ' ',
     '5', '6', '7', '8', '9',
@@ -19,28 +21,31 @@ pub const KEYPAD_DIAMOND: &[char] = &[
 ];
 
 /// Runs the problems for day 2.
-pub fn run(filename: Option<&str>) {
-    println!("Day 2: Bathroom Security");
-    let file = File::open(filename.unwrap_or("data/day02.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input = reader.lines().map(|l| l.unwrap()).collect::<Vec<String>>();
 
     let code = decode_instructions(&input, KEYPAD_NORMAL, Coord { row: 1, col: 1 }, Coord::next);
-    println!("part 1: {}", code);
+
     let diamond_code = decode_instructions(
         &input,
         KEYPAD_DIAMOND,
         Coord { row: 2, col: 0 },
         Coord::next_diamond,
     );
-    println!("part 2: {}", diamond_code);
+
+    Solution {
+        title: "Bathroom Security".to_string(),
+        part1: code,
+        part2: diamond_code,
+    }
 }
 
 #[derive(Clone)]
-pub struct Coord {
-    pub row: usize,
-    pub col: usize,
+struct Coord {
+    row: usize,
+    col: usize,
 }
 
 /// Increments x if x < upper_bound, otherwise returns x.
@@ -63,7 +68,7 @@ fn decrement(x: usize) -> usize {
 
 impl Coord {
     /// The next coordinate after moving in the given direction using a normal keypad.
-    pub fn next(&self, direction: char, size: usize) -> Coord {
+    fn next(&self, direction: char, size: usize) -> Coord {
         match direction {
             'R' => Coord {
                 row: self.row,
@@ -85,7 +90,7 @@ impl Coord {
     }
 
     /// The next coordinate after moving in the given direction using a diamond keypad.
-    pub fn next_diamond(&self, direction: char, size: usize) -> Coord {
+    fn next_diamond(&self, direction: char, size: usize) -> Coord {
         let tentative_coord = self.next(direction, size);
         let half_size = size as isize / 2;
         let manhattan_from_center = (tentative_coord.row as isize - half_size).abs()
@@ -99,7 +104,7 @@ impl Coord {
 }
 
 /// Decodes the given instructions into the actual keycode.
-pub fn decode_instructions<F>(
+fn decode_instructions<F>(
     instructions: &[String],
     keypad: &[char],
     start_coord: Coord,

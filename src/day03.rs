@@ -4,22 +4,25 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
+use solution::Solution;
+
 #[cfg(test)]
 use std::collections::HashSet;
 
-pub fn run(filename: Option<&str>) {
-    println!("Day 3: Squares With Three Sides");
-    let file = File::open(filename.unwrap_or("data/day03.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input = reader.lines().map(|l| l.unwrap()).collect::<Vec<String>>();
 
-    println!("part 1: {}", actual_triangle_count(&input));
-    println!("part 2: {}", actual_vertical_triangle_count(&input));
+    Solution {
+        title: "Squarse With Three Sides".to_string(),
+        part1: actual_triangle_count(&input).to_string(),
+        part2: actual_vertical_triangle_count(&input).to_string(),
+    }
 }
 
 /// The number of actual triangles when input is read horizontally.
-pub fn actual_triangle_count(input: &[String]) -> usize {
+fn actual_triangle_count(input: &[String]) -> usize {
     input
         .iter()
         .map(|input| parse_lengths(input))
@@ -28,7 +31,7 @@ pub fn actual_triangle_count(input: &[String]) -> usize {
 }
 
 /// The number of actual triangles when input is read vertically.
-pub fn actual_vertical_triangle_count(input: &[String]) -> usize {
+fn actual_vertical_triangle_count(input: &[String]) -> usize {
     read_vertical_triangles(input)
         .filter(|triangle| is_triangle(triangle))
         .count()

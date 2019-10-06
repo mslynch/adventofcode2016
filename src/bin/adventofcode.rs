@@ -4,8 +4,10 @@ extern crate clap;
 
 use adventofcode2016::{
     day01, day02, day03, day04, day05, day06, day07, day08, day09, day10, day11, day12,
+    solution::Solution,
 };
 use clap::{App, Arg};
+use std::fs::File;
 
 fn main() {
     let matches = App::new("Advent of Code 2016")
@@ -30,32 +32,51 @@ fn main() {
                 .takes_value(true),
         )
         .get_matches();
-    match matches.value_of("day").unwrap() {
-        "1" => day01::run(matches.value_of("file")),
-        "2" => day02::run(matches.value_of("file")),
-        "3" => day03::run(matches.value_of("file")),
-        "4" => day04::run(matches.value_of("file")),
-        "5" => day05::run(matches.value_of("file")),
-        "6" => day06::run(matches.value_of("file")),
-        "7" => day07::run(matches.value_of("file")),
-        "8" => day08::run(matches.value_of("file")),
-        "9" => day09::run(matches.value_of("file")),
-        "10" => day10::run(matches.value_of("file")),
-        "11" => day11::run(matches.value_of("file")),
-        "12" => day12::run(matches.value_of("file")),
-        // "13" => day13::run(matches.value_of("file")),
-        // "14" => day14::run(matches.value_of("file")),
-        // "15" => day15::run(matches.value_of("file")),
-        // "16" => day16::run(matches.value_of("file")),
-        // "17" => day17::run(matches.value_of("file")),
-        // "18" => day18::run(matches.value_of("file")),
-        // "19" => day19::run(matches.value_of("file")),
-        // "20" => day20::run(matches.value_of("file")),
-        // "21" => day21::run(matches.value_of("file")),
-        // "22" => day22::run(matches.value_of("file")),
-        // "23" => day23::run(matches.value_of("file")),
-        // "24" => day24::run(matches.value_of("file")),
-        // "25" => day25::run(matches.value_of("file")),
-        _ => println!("Enter a day between 1 and 25!"),
-    }
+
+    let day_input = matches.value_of("day").unwrap();
+
+    let day = match day_input.chars().count() {
+        1 => format!("0{}", day_input),
+        _ => day_input.to_string(),
+    };
+
+    let default_filename = &format!("data/day{}/input.dat", day);
+    let filename = matches.value_of("file").unwrap_or(default_filename);
+
+    let mut file = File::open(filename).expect("File not found!");
+
+    let runner_result: Result<fn(&mut File) -> Solution, &str> = match day.as_ref() {
+        "01" => Ok(day01::run),
+        "02" => Ok(day02::run),
+        "03" => Ok(day03::run),
+        "04" => Ok(day04::run),
+        "05" => Ok(day05::run),
+        "06" => Ok(day06::run),
+        "07" => Ok(day07::run),
+        "08" => Ok(day08::run),
+        "09" => Ok(day09::run),
+        "10" => Ok(day10::run),
+        "11" => Ok(day11::run),
+        "12" => Ok(day12::run),
+        // "13" => Ok(day13::run),
+        // "14" => Ok(day14::run),
+        // "15" => Ok(day15::run),
+        // "16" => Ok(day16::run),
+        // "17" => Ok(day17::run),
+        // "18" => Ok(day18::run),
+        // "19" => Ok(day19::run),
+        // "20" => Ok(day20::run),
+        // "21" => Ok(day21::run),
+        // "22" => Ok(day22::run),
+        // "23" => Ok(day23::run),
+        // "24" => Ok(day24::run),
+        // "25" => Ok(day25::run),
+        _ => Err("Enter a day between 1 and 25!"),
+    };
+    let runner = runner_result.unwrap();
+
+    let solution = runner(&mut file);
+    println!("Day {}: {}", day_input, solution.title);
+    println!("part 1:\n{}", solution.part1);
+    println!("part 2:\n{}", solution.part2);
 }

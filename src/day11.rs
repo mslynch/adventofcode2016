@@ -1,4 +1,5 @@
 use im::hashmap::HashMap;
+use solution::Solution;
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
@@ -6,9 +7,7 @@ use std::io::BufReader;
 use std::str;
 
 /// Runs the solutions for day 11.
-pub fn run(filename: Option<&str>) {
-    println!("Day 11: Radioisotope Thermoelectric Generators");
-    let file = File::open(filename.unwrap_or("data/day11.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
@@ -16,8 +15,10 @@ pub fn run(filename: Option<&str>) {
     let building = parse_input(&input);
     let state1 = BuildingState { floor: 0, building };
 
-    let steps1 = state1.min_steps();
-    println!("part 1: {}", steps1);
+    let part1 = match state1.min_steps() {
+        Ok(s) => s.to_string(),
+        Err(e) => e,
+    };
 
     let building_with_extras = state1.building.update_with(
         ElementPair {
@@ -33,38 +34,34 @@ pub fn run(filename: Option<&str>) {
         building: building_with_extras,
     };
 
-    let steps2 = state2.min_steps();
-    println!("part 2: {}", steps2);
+    let part2 = match state2.min_steps() {
+        Ok(s) => s.to_string(),
+        Err(e) => e,
+    };
+
+    Solution {
+        title: "Radioisotope Thermoelectric Generators".to_string(),
+        part1,
+        part2,
+    }
 }
 
 fn is_floor_out_of_bounds(floor: isize) -> bool {
     floor < 0 || floor > 3
 }
 
-pub type Building = HashMap<ElementPair, isize>;
+type Building = HashMap<ElementPair, isize>;
 
 #[derive(Debug, Clone, Hash, Eq, PartialEq)]
-pub struct BuildingState {
-    pub floor: isize,
-    pub building: Building,
-}
-
-#[derive(Debug, Clone, Hash, Eq, PartialEq)]
-pub enum ItemType {
-    Chip,
-    RTG,
-}
-
-#[derive(Debug, Clone, Hash, Eq, PartialEq)]
-pub struct Item {
-    pub element: String,
-    pub kind: ItemType,
+struct BuildingState {
+    floor: isize,
+    building: Building,
 }
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone)]
-pub struct ElementPair {
-    pub chip_floor: isize,
-    pub rtg_floor: isize,
+struct ElementPair {
+    chip_floor: isize,
+    rtg_floor: isize,
 }
 
 impl ElementPair {
@@ -74,7 +71,7 @@ impl ElementPair {
 }
 
 impl BuildingState {
-    pub fn min_steps(&self) -> isize {
+    fn min_steps(&self) -> Result<isize, String> {
         let mut visited_states = HashSet::new();
         visited_states.insert(self.clone());
         min_steps(&visited_states, &visited_states, 0)
@@ -329,7 +326,7 @@ fn min_steps(
     working_states: &HashSet<BuildingState>,
     visited_states: &HashSet<BuildingState>,
     steps_so_far: isize,
-) -> isize {
+) -> Result<isize, String> {
     let new_states: HashSet<BuildingState> = working_states
         .iter()
         .flat_map(|current_state| {
@@ -341,11 +338,11 @@ fn min_steps(
         .collect();
 
     if new_states.iter().any(|state| state.building.is_finished()) {
-        return steps_so_far + 1;
+        return Ok(steps_so_far + 1);
     }
 
     if new_states.is_empty() {
-        panic!("uh oh - cannot recurse more");
+        return Err("could not find solution - unable to recurse".to_string());
     }
 
     let new_visited_states: HashSet<BuildingState> =

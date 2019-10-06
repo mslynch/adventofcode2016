@@ -1,17 +1,12 @@
 extern crate adventofcode2016;
-extern crate im;
-use adventofcode2016::day12::{run_and_get_register_a, Instruction, RegisterInt};
+
+use std::fs::File;
+
+use adventofcode2016::day12::run;
 
 #[test]
 fn min_steps_test() {
-    let instructions = vec![
-        Instruction::Copy(RegisterInt::Number(41), 'a'),
-        Instruction::Increment('a'),
-        Instruction::Increment('a'),
-        Instruction::Decrement('a'),
-        Instruction::JumpNotZero(RegisterInt::Register('a'), 2),
-        Instruction::Decrement('a'),
-    ];
-    let final_register_a_value = run_and_get_register_a(&instructions);
-    assert_eq!(42, final_register_a_value);
+    let mut file = File::open("data/day12/test.dat").expect("File not found!");
+    let result = run(&mut file).part1;
+    assert_eq!("42", result, "instructions are executed");
 }

@@ -1,34 +1,22 @@
 extern crate adventofcode2016;
 
-use adventofcode2016::day06::{error_correct, max_count_comparator, min_count_comparator};
+use std::fs::File;
 
-fn input() -> Vec<String> {
-    vec![
-        "eedadn".to_string(),
-        "drvtee".to_string(),
-        "eandsr".to_string(),
-        "raavrd".to_string(),
-        "atevrs".to_string(),
-        "tsrnev".to_string(),
-        "sdttsa".to_string(),
-        "rasrtv".to_string(),
-        "nssdts".to_string(),
-        "ntnada".to_string(),
-        "svetve".to_string(),
-        "tesnvt".to_string(),
-        "vntsnd".to_string(),
-        "vrdear".to_string(),
-        "dvrsen".to_string(),
-        "enarar".to_string(),
-    ]
-}
+use adventofcode2016::day06::run;
 
 #[test]
 fn error_correction_max_test() {
-    assert_eq!("easter", error_correct(&input(), max_count_comparator));
+    let mut file = File::open("data/day06/test.dat").expect("File not found!");
+    let result = run(&mut file).part1;
+    assert_eq!("easter", result, "error-corrected message is found");
 }
 
 #[test]
 fn error_correction_min_test() {
-    assert_eq!("advent", error_correct(&input(), min_count_comparator));
+    let mut file = File::open("data/day06/test.dat").expect("File not found!");
+    let result = run(&mut file).part2;
+    assert_eq!(
+        "advent", result,
+        "error-corrected message is found when least common letter is chosen"
+    );
 }

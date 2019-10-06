@@ -1,20 +1,23 @@
+use solution::Solution;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::str;
 
 /// Runs the solutions for day 8.
-pub fn run(filename: Option<&str>) {
-    println!("Day 8: Two-Factor Authentication");
-    let file = File::open(filename.unwrap_or("data/day08.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
 
     let (lit, screen) = run_instructions(&input);
-    println!("part 1: {}", lit);
-    println!("part 2: ");
-    display(&screen);
+    display(&screen); // part 2
+
+    Solution {
+        title: "Two-Factor Authentication".to_string(),
+        part1: lit.to_string(),
+        part2: display(&screen),
+    }
 }
 
 struct Dimensions {
@@ -23,7 +26,7 @@ struct Dimensions {
 }
 
 /// Runs the instructions and returns the number of filled pixels, along with the screen.
-pub fn run_instructions(instructions: &[String]) -> (usize, [char; 300]) {
+fn run_instructions(instructions: &[String]) -> (usize, [char; 300]) {
     let mut screen = ['.'; 300];
     let dimensions = Dimensions { x: 50, y: 6 };
     for instruction in instructions {
@@ -33,19 +36,19 @@ pub fn run_instructions(instructions: &[String]) -> (usize, [char; 300]) {
 }
 
 /// Prints the screen.
-pub fn display(screen: &[char]) {
+fn display(screen: &[char]) -> String {
+    let mut output = "".to_string();
     for row in 0..6 {
         for col in 0..50 {
-            print!(
-                "{}",
-                match screen[row * 50 + col] {
-                    '#' => '█',
-                    _ => ' ',
-                }
-            );
+            let c = match screen[row * 50 + col] {
+                '#' => '█',
+                _ => ' ',
+            };
+            output.push(c);
         }
-        println!();
+        output.push('\n');
     }
+    output
 }
 
 /// Executes a fill instruction.

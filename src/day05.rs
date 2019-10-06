@@ -4,16 +4,18 @@ use std::io::prelude::*;
 use crypto::digest::Digest;
 use crypto::md5::Md5;
 
-/// Runs the problems for day 5.
-pub fn run(filename: Option<&str>) {
-    println!("Day 5: How About a Nice Game of Chess?");
-    let mut file = File::open(filename.unwrap_or("data/day05.txt")).expect("file not found");
+use solution::Solution;
+
+pub fn run(file: &mut File) -> Solution {
     let mut contents = String::new();
     file.read_to_string(&mut contents)
         .expect("something went wrong reading the file");
 
-    println!("part 1: {}", generate_password(&contents));
-    println!("part 2: {}", generate_password_2(&contents));
+    Solution {
+        title: "How About a Nice Game of Chess?".to_string(),
+        part1: generate_password(&contents),
+        part2: generate_password_2(&contents),
+    }
 }
 
 /// If the index and input make an interesting hash, return the character and position.
@@ -32,7 +34,7 @@ fn interesting_hash_digit(index: usize, input: &str) -> Option<(char, char)> {
 }
 
 /// Generates passwords, with the 5th digit being the next character.
-pub fn generate_password(input: &str) -> String {
+fn generate_password(input: &str) -> String {
     (0..)
         .filter_map(|i| interesting_hash_digit(i, input))
         .map(|(password_char, _)| password_char)
@@ -46,7 +48,7 @@ fn password_to_string(password: [Option<char>; 8]) -> String {
 }
 
 /// Generates passwords, with the 5th digit being the position and the 6th being the character.
-pub fn generate_password_2(input: &str) -> String {
+fn generate_password_2(input: &str) -> String {
     let mut password: [Option<char>; 8] = [None; 8];
     let mut digits_calculated = 0;
     'outer: for i in 0.. {

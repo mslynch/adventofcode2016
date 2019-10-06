@@ -8,15 +8,20 @@ use std::io::BufReader;
 
 use itertools::sorted;
 
-pub fn run(filename: Option<&str>) {
-    println!("Day 4: Security Through Obscurity");
-    let file = File::open(filename.unwrap_or("data/day04.txt")).expect("file not found");
+use solution::Solution;
+
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input = reader.lines().map(Result::unwrap).collect::<Vec<String>>();
 
-    println!("part 1: {}", real_room_id_sum(&input));
-    println!("part 2: {}", find_north_pole_sector(&input));
+    Solution {
+        title: "Security Through Obscurity".to_string(),
+        part1: real_room_id_sum(&input).to_string(),
+        part2: find_north_pole_sector(&input)
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| "none".to_string()),
+    }
 }
 
 #[derive(PartialEq, Debug)]
@@ -43,7 +48,7 @@ impl Ord for CharCount {
 }
 
 /// Finds the sum of the ids of real rooms.
-pub fn real_room_id_sum(input: &[String]) -> usize {
+fn real_room_id_sum(input: &[String]) -> usize {
     input
         .iter()
         .map(|input| parse_room(input))
@@ -53,15 +58,18 @@ pub fn real_room_id_sum(input: &[String]) -> usize {
 }
 
 /// Finds the id of the north pole object storage room.
-pub fn find_north_pole_sector(input: &[String]) -> usize {
-    let (id, _decrypted) = input
+fn find_north_pole_sector(input: &[String]) -> Option<usize> {
+    input
         .iter()
         .map(|input| parse_room(input))
-        .filter(Room::is_real)
+        // .filter(Room::is_real)
         .map(|room| (room.id, room.decrypt()))
-        .find(|(_id, decrypted)| decrypted.contains("northpole"))
-        .unwrap();
-    id
+        // .find(|(_id, decrypted)| decrypted.contains("northpole"))
+        .find(|(_id, decrypted)| {
+            println!("decrypted is {}", decrypted);
+            decrypted.contains("northpole")
+        })
+        .map(|(id, _decrypted)| id)
 }
 
 impl<'a> Room<'a> {

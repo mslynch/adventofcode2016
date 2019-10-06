@@ -1,41 +1,45 @@
 use im::hashmap::HashMap;
+use solution::Solution;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
-use std::str;
 
 /// Runs the solutions for day 10.
-pub fn run(filename: Option<&str>) {
-    println!("Day 10: Balance Bots");
-    let file = File::open(filename.unwrap_or("data/day10.txt")).expect("file not found");
+pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);
 
     let input: Vec<String> = reader.lines().map(Result::unwrap).collect();
     let (instructions, initial_state) = parse_input(&input);
     let (state, comparebot) = run_bots(instructions, initial_state, &[17, 61], None);
-    println!("part 1: {}", comparebot.unwrap());
+    let part1 = comparebot.unwrap().to_string();
 
     let bins = state.bins;
     let product = (0..3).fold(1, |product, bin_id| product * bins.get(&bin_id).unwrap());
-    println!("part 2: {}", product);
+    let part2 = product.to_string();
+
+    Solution {
+        title: "Balance Bots".to_string(),
+        part1,
+        part2,
+    }
 }
 
 #[derive(Clone)]
-pub enum OutputType {
+enum OutputType {
     Bot,
     Bin,
 }
 
 #[derive(Clone)]
-pub struct Bot {
-    pub id: usize,
-    pub output_type: OutputType,
+struct Bot {
+    id: usize,
+    output_type: OutputType,
 }
 
 #[derive(Debug, PartialEq)]
-pub struct State {
-    pub bots: HashMap<usize, Vec<usize>>,
-    pub bins: HashMap<usize, usize>,
+struct State {
+    bots: HashMap<usize, Vec<usize>>,
+    bins: HashMap<usize, usize>,
 }
 
 /// Returns a tuple of the bot instructions and the initial state.
@@ -117,7 +121,7 @@ fn ordered_vec(a: usize, b: usize) -> Vec<usize> {
 }
 
 /// Determines the end state and the bot responsible for comparing two different values
-pub fn run_bots<S: ::std::hash::BuildHasher>(
+fn run_bots<S: ::std::hash::BuildHasher>(
     bot_instructions: HashMap<usize, Vec<Bot>, S>,
     state: State,
     comparebot_values: &[usize],
@@ -192,5 +196,74 @@ pub fn run_bots<S: ::std::hash::BuildHasher>(
             comparebot_values,
             new_comparebot,
         )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn run_bots_test() {
+        let instructions = HashMap::new()
+            .update(
+                2,
+                vec![
+                    Bot {
+                        id: 1,
+                        output_type: OutputType::Bot,
+                    },
+                    Bot {
+                        id: 0,
+                        output_type: OutputType::Bot,
+                    },
+                ],
+            )
+            .update(
+                1,
+                vec![
+                    Bot {
+                        id: 1,
+                        output_type: OutputType::Bin,
+                    },
+                    Bot {
+                        id: 0,
+                        output_type: OutputType::Bot,
+                    },
+                ],
+            )
+            .update(
+                0,
+                vec![
+                    Bot {
+                        id: 2,
+                        output_type: OutputType::Bin,
+                    },
+                    Bot {
+                        id: 0,
+                        output_type: OutputType::Bin,
+                    },
+                ],
+            );
+
+        let state_bots = HashMap::new().update(2, vec![2, 5]).update(1, vec![3]);
+
+        let initial_state = State {
+            bots: state_bots,
+            bins: HashMap::new(),
+        };
+
+        let expected_state = State {
+            bots: HashMap::new()
+                .update(2, vec![])
+                .update(1, vec![])
+                .update(0, vec![]),
+            bins: HashMap::new().update(0, 5).update(1, 2).update(2, 3),
+        };
+
+        let (actual_state, comparebot) = run_bots(instructions, initial_state, &[2, 5], None);
+
+        assert_eq!(expected_state, actual_state);
+        assert_eq!(2, comparebot.unwrap());
     }
 }

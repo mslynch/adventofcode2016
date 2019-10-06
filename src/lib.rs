@@ -4,6 +4,8 @@ extern crate crypto;
 extern crate im;
 extern crate itertools;
 
+pub mod solution;
+
 pub mod day01;
 pub mod day02;
 pub mod day03;
