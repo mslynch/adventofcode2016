@@ -13,7 +13,7 @@ pub fn run(file: &mut File) -> Solution {
     Solution {
         title: "Dragon Checksum".to_string(),
         part1: curve_and_checksum(&input, 272),
-        part2: curve_and_checksum(&input, 35651584),
+        part2: curve_and_checksum(&input, 35_651_584),
     }
 }
 
