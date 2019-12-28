@@ -4,7 +4,7 @@ extern crate clap;
 
 use adventofcode2016::{
     day01, day02, day03, day04, day05, day06, day07, day08, day09, day10, day11, day12, day13,
-    day14, day15, day16, day17, solution::Solution,
+    day14, day15, day16, day17, day18, solution::Solution,
 };
 use clap::{App, Arg};
 use std::fs::File;
@@ -63,7 +63,7 @@ fn main() {
         "15" => Ok(day15::run),
         "16" => Ok(day16::run),
         "17" => Ok(day17::run),
-        // "18" => Ok(day18::run),
+        "18" => Ok(day18::run),
         // "19" => Ok(day19::run),
         // "20" => Ok(day20::run),
         // "21" => Ok(day21::run),
