@@ -19,7 +19,6 @@ pub fn run_with_rows(file: &mut File, num_rows_part1: usize, num_rows_part2: usi
     }
 }
 
-
 fn get_tile(previous_row: &str, position: usize) -> char {
     let padded = format!(".{}.", previous_row);
     match &padded[position..=position + 2] {

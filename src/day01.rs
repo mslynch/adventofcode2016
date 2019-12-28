@@ -143,7 +143,7 @@ fn blocks_away(input: &str) -> (isize, Option<isize>) {
         });
 
     let walked_positions: Vec<Position> = final_walk_result
-        .flat_map(|walk_result| walk_result)
+        .flatten()
         .collect();
 
     let mut visited = HashSet::new();
@@ -159,7 +159,7 @@ fn blocks_away(input: &str) -> (isize, Option<isize>) {
     let final_position = walked_positions.iter().last().unwrap();
     let ending_distance = final_position.absolute_blocks();
 
-    let revisited_distance = first_visited_position.and_then(|pos| Some(pos.absolute_blocks()));
+    let revisited_distance = first_visited_position.map(|pos| pos.absolute_blocks());
 
     (ending_distance, revisited_distance)
 }
