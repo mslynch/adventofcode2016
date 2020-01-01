@@ -1,8 +1,7 @@
 use solution::Solution;
+use std::collections::VecDeque;
 use std::fs::File;
 use std::io::prelude::*;
-use std::collections::VecDeque;
-
 
 /// Runs the solutions for day 19.
 pub fn run(file: &mut File) -> Solution {
@@ -43,5 +42,8 @@ fn get_last_elf_opposite(num_elves: usize) -> usize {
         elves_back.push_back(thief);
     }
 
-    elves_front.pop_front().or_else(|| elves_back.pop_front()).unwrap()
+    elves_front
+        .pop_front()
+        .or_else(|| elves_back.pop_front())
+        .unwrap()
 }

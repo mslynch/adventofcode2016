@@ -142,9 +142,7 @@ fn blocks_away(input: &str) -> (isize, Option<isize>) {
             Some(positions)
         });
 
-    let walked_positions: Vec<Position> = final_walk_result
-        .flatten()
-        .collect();
+    let walked_positions: Vec<Position> = final_walk_result.flatten().collect();
 
     let mut visited = HashSet::new();
     let mut first_visited_position = None;
