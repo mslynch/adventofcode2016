@@ -348,7 +348,7 @@ fn min_steps(
     let new_visited_states: HashSet<BuildingState> =
         visited_states.union(&new_states).cloned().collect();
 
-    min_steps(&new_states, &new_visited_states.clone(), steps_so_far + 1)
+    min_steps(&new_states, &new_visited_states, steps_so_far + 1)
 }
 
 #[cfg(test)]

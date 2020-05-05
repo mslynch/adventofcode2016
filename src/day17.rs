@@ -10,7 +10,7 @@ pub fn run(file: &mut File) -> Solution {
 
     Solution {
         title: "Two Steps Forward".to_string(),
-        part1: find_shortest_path(&input).to_string(),
+        part1: find_shortest_path(&input),
         part2: find_longest_path_length(&input).to_string(),
     }
 }
