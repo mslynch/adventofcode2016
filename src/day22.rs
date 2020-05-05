@@ -52,7 +52,7 @@ pub fn run(file: &mut File) -> Solution {
     let viable_pairs = get_viable_pairs(&nodes_to_usage);
 
     Solution {
-        title: "Scrambled Letters and Hash".to_string(),
+        title: "Grid Computing".to_string(),
         part1: viable_pairs.len().to_string(),
         part2: string_representation(&nodes_to_usage),
     }
@@ -147,14 +147,4 @@ struct CoordPair {
 struct DiskUsage {
     size: i32,
     used: i32,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn swap_position_test() {
-        assert_eq!("acbd".to_string(), swap_position("abcd", 1, 2));
-    }
 }
