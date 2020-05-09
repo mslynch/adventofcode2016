@@ -40,12 +40,12 @@ fn parse_input(input: &[String]) -> Vec<Instruction> {
                     let register_int_1 = parse_arg(split.next().unwrap());
                     let register_int_2 = parse_arg(split.next().unwrap());
                     Instruction::Copy(register_int_1, register_int_2)
-                },
+                }
                 "jnz" => {
                     let register_int_1 = parse_arg(split.next().unwrap());
                     let register_int_2 = parse_arg(split.next().unwrap());
                     Instruction::JumpNotZero(register_int_1, register_int_2)
-                },
+                }
                 _ => Instruction::Toggle(split.next().unwrap().chars().next().unwrap()),
             }
         })
@@ -111,12 +111,16 @@ impl Memory {
         while (self.index as usize) < self.instructions.len() {
             let next_index = self.index as usize;
             let instruction = *self.instructions.get(next_index).unwrap();
-            
+
             match instruction {
                 Instruction::Increment(c) => self.increment(c),
                 Instruction::Decrement(c) => self.decrement(c),
-                Instruction::Copy(register_int, destination) => self.copy(register_int, destination),
-                Instruction::JumpNotZero(register_int, distance) => self.jump_not_zero(register_int, distance),
+                Instruction::Copy(register_int, destination) => {
+                    self.copy(register_int, destination)
+                }
+                Instruction::JumpNotZero(register_int, distance) => {
+                    self.jump_not_zero(register_int, distance)
+                }
                 Instruction::Toggle(c) => self.toggle(c),
             }
         }
@@ -160,7 +164,7 @@ impl Memory {
         let value = self.get_register(RegisterInt::Register(register));
         let toggle_index = self.index as usize + value as usize;
         if let Some(instruction_to_toggle) = self.instructions.get(toggle_index) {
-            self.instructions[toggle_index] = instruction_to_toggle.toggle();    
+            self.instructions[toggle_index] = instruction_to_toggle.toggle();
         }
         self.index += 1;
     }

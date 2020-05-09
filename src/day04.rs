@@ -85,7 +85,6 @@ impl<'a> Room<'a> {
             count: *count,
         }));
         sorted
-            .iter()
             .map(|char_count| char_count.character)
             .take(5)
             .collect::<String>()
