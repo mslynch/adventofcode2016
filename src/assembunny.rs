@@ -20,6 +20,7 @@ pub enum Instruction {
     Copy(RegisterInt, RegisterInt),
     JumpNotZero(RegisterInt, RegisterInt),
     Toggle(char),
+    Output(char),
 }
 
 impl Instruction {
@@ -30,6 +31,7 @@ impl Instruction {
             Self::JumpNotZero(ri1, ri2) => Self::Copy(*ri1, *ri2),
             Self::Copy(ri1, ri2) => Self::JumpNotZero(*ri1, *ri2),
             Self::Toggle(c) => Self::Increment(*c),
+            Self::Output(c) => Self::Increment(*c),
         }
     }
 }
@@ -44,22 +46,22 @@ impl Memory {
     }
 
     pub fn run_instructions(&mut self) {
-        while (self.index as usize) < self.instructions.len() {
-            let next_index = self.index as usize;
-            let instruction = *self.instructions.get(next_index).unwrap();
+        self.for_each(|_| {});
+    }
 
-            match instruction {
-                Instruction::Increment(c) => self.increment(c),
-                Instruction::Decrement(c) => self.decrement(c),
-                Instruction::Copy(register_int, destination) => {
-                    self.copy(register_int, destination)
-                }
-                Instruction::JumpNotZero(register_int, distance) => {
-                    self.jump_not_zero(register_int, distance)
-                }
-                Instruction::Toggle(c) => self.toggle(c),
+    pub fn provides_clock_signal(&mut self, iterations: usize) -> bool {
+        let valid_clock = [0, 1].iter().cycle();
+        let mut iter_count = 0;
+        for (valid_output, self_output) in self.zip(valid_clock).take(iterations) {
+            if valid_output != *self_output {
+                return false;
             }
+            iter_count += 1;
         }
+        if iter_count != iterations {
+            return false;
+        }
+        true
     }
 
     fn get_register(&self, register_int: RegisterInt) -> i32 {
@@ -104,6 +106,51 @@ impl Memory {
         }
         self.index += 1;
     }
+
+    fn output(&mut self, register: char) -> i32 {
+        let value = self.get_register(RegisterInt::Register(register));
+        self.index += 1;
+        value
+    }
+}
+
+impl Iterator for Memory {
+    type Item = i32;
+    fn next(&mut self) -> Option<i32> {
+        loop {
+            let index = self.index as usize;
+            if let Some(instruction) = self.instructions.get(index) {
+                let output = match *instruction {
+                    Instruction::Increment(c) => {
+                        self.increment(c);
+                        None
+                    }
+                    Instruction::Decrement(c) => {
+                        self.decrement(c);
+                        None
+                    }
+                    Instruction::Copy(register_int, destination) => {
+                        self.copy(register_int, destination);
+                        None
+                    }
+                    Instruction::JumpNotZero(register_int, distance) => {
+                        self.jump_not_zero(register_int, distance);
+                        None
+                    }
+                    Instruction::Toggle(c) => {
+                        self.toggle(c);
+                        None
+                    }
+                    Instruction::Output(c) => Some(self.output(c)),
+                };
+                if let Some(output_num) = output {
+                    return Some(output_num);
+                }
+            } else {
+                return None;
+            }
+        }
+    }
 }
 
 pub fn parse_input(input: &[String]) -> Vec<Instruction> {
@@ -124,6 +171,7 @@ pub fn parse_input(input: &[String]) -> Vec<Instruction> {
                     let register_int_2 = parse_arg(split.next().unwrap());
                     Instruction::JumpNotZero(register_int_1, register_int_2)
                 }
+                "out" => Instruction::Output(split.next().unwrap().chars().next().unwrap()),
                 _ => Instruction::Toggle(split.next().unwrap().chars().next().unwrap()),
             }
         })
