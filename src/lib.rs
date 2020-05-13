@@ -8,6 +8,7 @@ extern crate md5;
 
 pub mod solution;
 
+pub mod assembunny;
 pub mod day01;
 pub mod day02;
 pub mod day03;
