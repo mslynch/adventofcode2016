@@ -4,7 +4,7 @@ use std::io::prelude::*;
 use crypto::digest::Digest;
 use crypto::md5::Md5;
 
-use solution::Solution;
+use crate::solution::Solution;
 
 pub fn run(file: &mut File) -> Solution {
     let mut contents = String::new();

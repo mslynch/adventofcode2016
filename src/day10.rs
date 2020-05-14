@@ -1,5 +1,5 @@
+use crate::solution::Solution;
 use im::hashmap::HashMap;
-use solution::Solution;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;

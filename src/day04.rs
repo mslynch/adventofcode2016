@@ -8,7 +8,7 @@ use std::io::BufReader;
 
 use itertools::sorted;
 
-use solution::Solution;
+use crate::solution::Solution;
 
 pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);

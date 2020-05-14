@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::iter;
 
-use solution::Solution;
+use crate::solution::Solution;
 
 /// Runs the problems for day 1.
 pub fn run(file: &mut File) -> Solution {

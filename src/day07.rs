@@ -1,4 +1,4 @@
-use solution::Solution;
+use crate::solution::Solution;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;

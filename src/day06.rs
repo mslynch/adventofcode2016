@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-use solution::Solution;
+use crate::solution::Solution;
 
 /// Runs the solution for day 6.
 pub fn run(file: &mut File) -> Solution {

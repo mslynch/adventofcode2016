@@ -1,10 +1,10 @@
-use solution::Solution;
+use crate::solution::Solution;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-use assembunny::{parse_input, Instruction, Memory};
+use crate::assembunny::{parse_input, Instruction, Memory};
 
 pub fn run(file: &mut File) -> Solution {
     let reader = BufReader::new(file);

@@ -1,5 +1,4 @@
-use md5;
-use solution::Solution;
+use crate::solution::Solution;
 use std::collections::VecDeque;
 use std::fs::File;
 use std::io::prelude::*;

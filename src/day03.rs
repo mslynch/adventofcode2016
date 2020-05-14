@@ -4,7 +4,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-use solution::Solution;
+use crate::solution::Solution;
 
 #[cfg(test)]
 use std::collections::HashSet;

@@ -1,5 +1,5 @@
+use crate::solution::Solution;
 use itertools::Itertools;
-use solution::Solution;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs::File;

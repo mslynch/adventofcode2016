@@ -1,4 +1,3 @@
-extern crate adventofcode2016;
 #[macro_use]
 extern crate clap;
 
